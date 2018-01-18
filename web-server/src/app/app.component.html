@@ -1,0 +1,221 @@
+<!-- Top Navigation Toolbar Started -->
+<mat-toolbar id="header">
+  <span>
+    <a mat-button routerLink=".">
+      <mat-icon>ac_unit</mat-icon> {{title}}
+    </a>
+  </span>
+  <span class="flex-nav"></span>
+  <div class="devider"></div>
+  <span>
+    <div class="search">
+      <mat-icon>search</mat-icon>
+      <input type="text" placeholder="" class="" />
+    </div>
+  </span>
+  <div class="devider"></div>
+  <span>
+    <!-- Notificaion Dropdwon Started -->
+    <a mat-icon-button [matMenuTriggerFor]="notificationsDir" (click)="allRead()">
+      <mat-icon>notifications_none</mat-icon>
+      <span class="notify" *ngIf="unRealNotif > 0 as show">{{ unRealNotif }}</span>
+    </a>
+    <mat-menu #notificationsDir="matMenu" direction="center" overlapTrigger class="menu-design">
+      <ul class="mi-font">
+        <li mat-menu-item class="seprator"> Notifications
+          <span class="circle" *ngIf="unRealNotif > 0 as show">{{ unRealNotif }}</span>
+        </li>
+        <li mat-menu-item *ngFor="let notification of notifications" class="menu-item-design seprator">
+          <span>
+            <img class="avatar" src="{{mediaUrl}}{{notification.createdBy.avatar}}" alt="Avatar">
+          </span>
+          <span class="text-design">
+            <span style="font-weight:bold;"> {{ notification.createdBy.firstname }} </span> {{ notification.text }}
+          </span>
+        </li>
+        <li mat-menu-item class="" (click)="jumpOnAllNotificaionTab()"> See All </li>
+      </ul>
+    </mat-menu>
+    <a mat-icon-button>
+      <mat-icon>mail_outline</mat-icon>
+    </a>
+    <!-- Notificaion Dropdwon Finish -->
+  </span>
+  <span class="profile-action">
+    <img class="avatar" src="{{mediaUrl}}3.jpg" alt="Avatar">
+    <mat-icon class="profile-action-dropdown">keyboard_arrow_down</mat-icon>
+  </span>
+</mat-toolbar>
+<!-- Top Navigation Toolbar Finish -->
+<!-- Tab Navigation Started -->
+<mat-tab-group #tabGroup [selectedIndex]="tabIndex" (selectedIndexChange)="onSelectedIndexChange($event)">
+
+  <!-- All Notification Playground Tab Started -->
+  <mat-tab label="Notification Playground!" class="tab-label">
+    <mat-card style="opacity: 0.9;">
+      <mat-card-header>
+        <mat-card-title>Notification Playground!</mat-card-title>
+        <mat-card-subtitle>Here we can do the CRUD oprations on notifications!</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+
+        <!-- Create Notificaion Form Started -->
+        <form class="auto-form" (submit)="add()">
+          <mat-grid-list cols="3" rowHeight="70px" style="margin: 10px;">
+
+            <!-- Search Profile Autocomplete Started -->
+            <mat-grid-tile>
+              <mat-form-field class="auto-full-width">
+                <input matInput placeholder="Select User (From Notificaion)" aria-label="Profile" [matAutocomplete]="profileAuto" [formControl]="profileCtrl">
+                <mat-autocomplete #profileAuto="matAutocomplete">
+                  <mat-option *ngFor="let profile of profiles" [value]="profile.firstname + ' ' + profile.lastname" (onSelectionChange)="selectedProfile(profile)">
+                    <img style="vertical-align:middle;" aria-hidden src="{{mediaUrl}}{{profile.avatar}}" height="25" />
+                    <span>{{ profile.firstname}} {{ profile.lastname }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </mat-grid-tile>
+            <!-- Search Profile Autocomplete Finish -->
+            <!-- Search Notification Type Autocomplete Started -->
+            <mat-grid-tile>
+              <mat-form-field class="auto-full-width">
+                <input type="text" placeholder="Select Notification Type" aria-label="Notification" matInput [formControl]="notificationControl"
+                  [matAutocomplete]="notifAuto">
+                <mat-autocomplete #notifAuto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredNotificationOptions | async" [value]="option" (onSelectionChange)="selectedNotification(option)">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </mat-grid-tile>
+            <!-- Search Notification Type Autocomplete Finish -->
+            <mat-grid-tile>
+              <!-- Save|Submmit Button-->
+              <button mat-button mat-raised-button color="primary">Add</button>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+        <!-- Create Notificaion Form Finish -->
+      </mat-card-content>
+    </mat-card>
+    <div class="table">
+      <mat-table #table [dataSource]="realTimeNotificationDataSource" style="opacity: 0.9;" matSort>
+        <!-- User Column -->
+        <ng-container matColumnDef="createdBy">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="table-row-item">
+            <span>
+              <img class="avatar" src="{{mediaUrl}}{{element.createdBy.avatar}}" alt="Avatar">
+            </span>
+            <span style="line-height: 3;margin-left: 10px;">
+              {{element.createdBy.firstname }} {{element.createdBy.lastname }}
+            </span>
+          </mat-cell>
+        </ng-container>
+        <!-- Activity Column -->
+        <ng-container matColumnDef="text">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Activity </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-form-field >
+              <input matInput type="text" placeholder="" name="text" [(ngModel)]="element.text" />
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+        <!-- IsRead Status Column -->
+        <ng-container matColumnDef="isRead">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Read Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.isRead}}</mat-cell>
+        </ng-container>
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="update(element)">
+              <mat-icon>mode_edit</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="read(element)">
+              <mat-icon>drafts</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="unread(element)">
+              <mat-icon>markunread</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="remove(element)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="realTimeDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: realTimeDisplayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+  <!-- All Notification Playground Tab Finish -->
+  <!-- All Notification Tab Started -->
+  <mat-tab label="All Notifications" class="tab-label">
+    <button mat-icon-button color="primary" (click)="getAllNotifications()" class="an_refresh">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <div class="table">
+      <mat-table #table [dataSource]="dataSource" style="opacity: 0.9;" matSort>
+
+        <!-- User Column -->
+        <ng-container matColumnDef="createdBy">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="table-row-item">
+            <span>
+              <img class="avatar" src="{{mediaUrl}}{{element.createdBy.avatar}}" alt="Avatar">
+            </span>
+            <span style="line-height: 3;margin-left: 10px;">
+              {{element.createdBy.firstname }} {{element.createdBy.lastname }}
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Activity Column -->
+        <ng-container matColumnDef="text">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Activity </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.text}}</mat-cell>
+        </ng-container>
+
+        <!-- IsRead Status Column -->
+        <ng-container matColumnDef="isRead">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Read Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.isRead}}</mat-cell>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="read(element)">
+              <mat-icon>drafts</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="unread(element)">
+              <mat-icon>markunread</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="remove(element)">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+  <!-- All Notification Tab Finish -->
+</mat-tab-group>
+<!-- Tab Navigation Finish -->
+
+<!-- Snow Container Area -->
+<div class="snow-container">
+  <div class="snow foreground">
+    <div class="layered"></div>
+  </div>
+  <div class="snow middleground">
+    <div class="layered"></div>
+  </div>
+  <div class="snow background">
+    <div class="layered"></div>
+  </div>
+</div>

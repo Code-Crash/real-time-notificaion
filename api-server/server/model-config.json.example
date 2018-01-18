@@ -1,0 +1,84 @@
+{
+    "_meta": {
+        "sources": [
+            "loopback/common/models",
+            "loopback/server/models",
+            "../common/models",
+            "./models"
+        ],
+        "mixins": [
+            "loopback/common/mixins",
+            "loopback/server/mixins",
+            "../common/mixins",
+            "./mixins",
+            "../node_modules/@mean-expert/loopback-component-realtime/dist/mixins"
+        ]
+    },
+    "User": {
+        "dataSource": "notify-database",
+        "public": false
+    },
+    "AccessToken": {
+        "dataSource": "notify-database",
+        "public": false
+    },
+    "ACL": {
+        "dataSource": "notify-database",
+        "public": false
+    },
+    "RoleMapping": {
+        "dataSource": "notify-database",
+        "public": false,
+        "options": {
+            "strictObjectIDCoercion": true
+        }
+    },
+    "Role": {
+        "dataSource": "notify-database",
+        "public": false
+    },
+    "accessToken": {
+        "dataSource": "notify-database",
+        "public": false
+    },
+    "Profile": {
+        "dataSource": "notify-database",
+        "public": true,
+        "options": {
+            "remoting": {
+                "sharedMethods": {
+                    "*": true,
+                    "login": true,
+                    "logout": true,
+                    "upsert": true,
+                    "create": true,
+                    "find": true,
+                    "findById": true,
+                    "findOne": true,
+                    "deleteById": true
+                }
+            }
+        }
+    },
+    "Notification": {
+        "dataSource": "notify-database",
+        "public": true,
+        "options": {
+            "remoting": {
+                "sharedMethods": {
+                    "*": true,
+                    "upsert": true,
+                    "create": true,
+                    "find": true,
+                    "findById": true,
+                    "findOne": true,
+                    "deleteById": true
+                }
+            }
+        }
+    },
+    "media": {
+        "dataSource": "storage",
+        "public": true
+    }
+}

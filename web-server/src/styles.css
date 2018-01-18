@@ -1,0 +1,241 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Gloabl Style */
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  background: #263C51;
+}
+
+.menu-design {
+  border-radius: 3% !important;
+  background: #fff !important;
+  overflow: visible !important;
+  margin-top: 30px !important;
+  color: #747F8A;
+  min-width: 250px !important;
+  max-width: 250px !important;
+}
+
+.menu-item-design {
+  background: #E9EFF2 !important;
+  border-radius: 0px;
+  cursor: default;
+  padding: 5px !important;
+  display: flex !important;
+}
+
+.menu-item-design span {
+  display: inline;
+  font-size: 11px !important;
+}
+
+.menu-item-design span:first-child {
+  margin: 5px;
+}
+
+.text-design {
+  white-space: normal;
+  line-height: 2;
+  overflow: hidden;
+  text-align: start;
+  padding-left: 5px;
+}
+
+.menu-design:before {
+  content: "";
+  position: absolute;
+  right: 3%;
+  top: -10px;
+  width: 2px;
+  height: 0;
+  border-style: solid;
+  border-width: 0px 12px 10px 12px;
+  border-color: transparent transparent #fff transparent;
+  z-index: 9999;
+  border-radius: 0px 0px 0px 0px
+}
+
+.seprator {
+  border-bottom: 1px #CFDAE1 solid !important;
+}
+
+.vertical-seprator {
+  height: 40px;
+  width: 1px;
+  margin: 0 5px;
+  overflow: hidden;
+  background-color: #DDD;
+  border-right: 2px solid #FFF;
+}
+
+.mi-font>li {
+  color: #747F8A !important;
+  text-align: center !important;
+  font-size: 15px;
+}
+
+.mi-font>li:first-child {
+  pointer-events: default;
+  cursor: default;
+}
+
+.mi-font>li:first-child,
+.mi-font>li:last-child {
+  font-weight: bold !important;
+}
+
+/* Notificaion Circle on bell icon */
+.notify {
+  background: #31B9B8;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  line-height: 1.6em;
+  margin-left: -15px !important;
+  text-align: center;
+  width: 1.6em;
+  margin-top: -12px !important;
+  font-size: 9px !important;
+}
+
+/* Notificaion Circle in Notificaion Dropdown */
+.circle {
+  background: #31B9B8;
+  border-radius: 0.8em;
+  -moz-border-radius: 0.8em;
+  -webkit-border-radius: 0.8em;
+  color: #ffffff;
+  display: inline-block;
+  line-height: 1.6em;
+  margin-right: 5px;
+  text-align: center;
+  width: 1.6em;
+}
+
+.flex-nav {
+  flex: 1 1 auto;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* SNOW STYLE START */
+.snow-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  top: 15% !important;
+  overflow: hidden;
+  /* z-index: 2; */
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.snow {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate3d(0, -100%, 0);
+  animation: snow linear infinite;
+}
+
+.snow.foreground {
+  background-image: url("assets/img/snow-foreground.png");
+  animation-duration: 30s;
+}
+
+.snow.foreground.layered {
+  animation-delay: 30s/2;
+}
+
+.snow.middleground {
+  background-image: url("assets/img/snow-middleground.png");
+  animation-duration: 35s;
+}
+
+.snow.middleground.layered {
+  animation-delay: 35s/2;
+}
+
+.snow.background {
+  background-image: url("assets/img/snow-background.png");
+  animation-duration: 40s;
+}
+
+.snow.background.layered {
+  animation-delay: 40s/2;
+}
+
+@keyframes snow {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    transform: translate3d(15%, 100%, 0);
+  }
+}
+
+/* SNOW STYLE FINISH */
+
+.table {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mat-header-cell.mat-sort-header-sorted {
+  color: black;
+}
+
+.table-row-item {
+  line-height: 1;
+  display: flex !important;
+  margin: 10px;
+}
+
+md-tab-group {
+  background-color: pink;
+}
+
+.mat-tab-header {
+  /* background-color: #a0b6c2; */
+  opacity: 0.9;
+}
+
+.mat-tab-label {
+  color: #fff;
+}
+
+.mat-tab-label-active {
+  color: #fff;
+  opacity: 1 !important;
+}
+
+.mat-ink-bar {
+  background-color: #a0b6c2 !important;
+}

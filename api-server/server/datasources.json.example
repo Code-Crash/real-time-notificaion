@@ -1,0 +1,21 @@
+{
+    "db": {
+        "name": "db",
+        "connector": "memory"
+    },
+    "storage": {
+        "name": "storage",
+        "connector": "loopback-component-storage",
+        "provider": "filesystem",
+        "root": "./media"
+    },
+    "notify-database": {
+        "host": "localhost",
+        "port": 27017,
+        "database": "notif",
+        "password": "notif",
+        "name": "",
+        "user": "",
+        "connector": "mongodb"
+    }
+}

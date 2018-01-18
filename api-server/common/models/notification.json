@@ -1,0 +1,42 @@
+{
+    "name": "Notification",
+    "plural": "Notifications",
+    "base": "PersistedModel",
+    "properties": {
+        "text": {
+            "type": "string",
+            "required": true
+        },
+        "isRead": {
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+        "createdAt": {
+            "type": "date",
+            "default": null
+        },
+        "updatedAt": {
+            "type": "date",
+            "default": null
+        }
+    },
+    "mixins": {
+        "FireLoop": true
+    },
+    "validations": [],
+    "relations": {
+        "createdBy": {
+            "type": "belongsTo",
+            "model": "Profile",
+            "foreignKey": "createdById"
+        }
+    },
+    "acls": [{
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "ALLOW"
+    }],
+    "methods": {}
+
+}
